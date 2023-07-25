@@ -21,17 +21,18 @@ ref.minutesEl.style.display = 'block';
 ref.secondsEl.style.display = 'block';
 
 ref.btnEl.disabled = true;
-const date =  Date.now();
+// const date =  Date.now();
 let dataValue = 0;
 
 const options = {
     enableTime: true,
     time_24hr: true,
-    defaultDate: date,
-    minuteIncrement: 1,
-    onClose(selectedDates) {
-        dataValue = selectedDates[0].getTime();
-        if (dataValue < date) {
+    defaultDate: Date.now(),
+  minuteIncrement: 1,
+    
+          onClose([selectedDates]) {
+        dataValue = selectedDates.getTime();
+        if (dataValue < Date.now()) {
             Notiflix.Notify.failure('Please choose a date in the future');
             return;
         }
@@ -66,10 +67,14 @@ function timer () {
 
 
 function addZero(value) {
-  ref.daysEl.textContent = value.days.toString().padStart(2, '0');
-  ref.hoursEl.textContent = value.hours.toString().padStart(2, '0');
-  ref.minutesEl.textContent = value.minutes.toString().padStart(2, '0');
-  ref.secondsEl.textContent = value.seconds.toString().padStart(2, '0');
+  ref.daysEl.textContent = pud(value.days);
+  ref.hoursEl.textContent = pud(value.hours);
+  ref.minutesEl.textContent = pud(value.minutes);
+  ref.secondsEl.textContent = pud(value.seconds);
+}
+
+function pud(value) { 
+  return value.toString().padStart(2, '0')
 }
 
 function convertMs(ms) {
